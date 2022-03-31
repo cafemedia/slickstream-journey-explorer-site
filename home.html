@@ -385,7 +385,7 @@
       display: grid;
       grid-column-gap: 30px;
       grid-row-gap: 30px;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       padding: 30px 0;
     }
 
@@ -406,6 +406,8 @@
       border-radius: 10px;
       box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%), 0 1px 5px 0 rgb(0 0 0 / 12%);
       overflow: hidden;
+      max-width: 400px;
+      margin: 0 auto;
     }
 
     .featuresCard p {
@@ -429,17 +431,45 @@
       display: block;
       height: 420px;
     }
-  </style>
-  <style>
-    @media (max-width: 925px) {
-      .featuresContentPanel {
-        grid-template-columns: repeat(2, 1fr);
-      }
+
+    #pricingSection {
+      text-align: center;
+      font-size: 24px;
+      padding: 0 0 80px 0;
     }
 
+    #pricingSection .header {
+      margin: 0 auto;
+      max-width: 800px;
+    }
+
+    #pricingSection h4 {
+      color: white;
+      margin: 8px 0;
+    }
+
+    #pricingSection mark {
+      padding: 6px 0px;
+      margin: 0 4px;
+      background: none;
+      color: inherit;
+      font-family: var(--system-font);
+      font-weight: 600;
+      white-space: nowrap;
+      font-style: italic;
+      border-bottom: 8px solid;
+    }
+  </style>
+  <style>
     @media (max-width: 865px) {
       h1 {
         font-size: 48px;
+      }
+    }
+
+    @media (max-width: 780px) {
+      .featuresContentPanel {
+        grid-template-columns: repeat(1, 1fr);
       }
     }
 
@@ -622,15 +652,6 @@
                   <p>Search individual pages to see how they’re performing, and where visitors are going next.</p>
                 </div>
               </div>
-              <div class="featuresCard flex vert">
-                <div class="featureVideo">
-                  <video src="./vid4.mp4" autoplay loop playsinline muted></video>
-                </div>
-                <div class="flex">
-                  <p>Integrate your Google Analytics for immediate access, or add our plugin for even richer data.</p>
-                </div>
-              </div>
-
             </div>
           </section>
 
@@ -655,12 +676,23 @@
               </div>
             </div>
           </section>
+        </div>
+      </div>
 
-          <section class="featuresSection">
-            <h3> Pricing</h3>
+      <div class="darkPanel">
+        <div class="contentPanel">
+          <section id="pricingSection">
+            <div class="header">
+              <h3> Pricing</h3>
+              <h4>The Journey Explorer and all analytics are
+                <mark>completely free,</mark>
+                with no subscription required.
+              </h4>
+            </div>
           </section>
         </div>
       </div>
+
     </main>
   </div>
 
