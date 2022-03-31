@@ -24,6 +24,10 @@
       unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       --system-font: "SF Pro Display", -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica, Ubuntu, Roboto, Noto, "Segoe UI", Arial, sans-serif;
@@ -32,15 +36,20 @@
       line-height: 1.5;
       -webkit-font-smoothing: subpixel-antialiased;
       font-size: 16px;
-      --title-font: 'Raleway', sans-serif;
-      --c4-theme-primary: #000000;
-      --c4-theme-on-primary: #ffffff;
-      --c4-theme-secondary: #1292ee;
-      --c4-theme-on-secondary: #ffffff;
-      --c4-theme-on-surface: #242424;
       overflow-x: hidden;
-      background: #242424;
-      color: white;
+
+      --home-title-font: 'Raleway', sans-serif;
+      --home-button-color: #1292ee;
+      --home-dark-bg: #242424;
+      --home-on-light: #242424;
+      --home-light-bg: #ffffff;
+      --home-on-dark: #ffffff;
+      --home-title-on-light: #0277BD;
+      --home-title-on-dark: #90D9E1;
+      --shome-title-on-dark: #FBCCA6;
+
+      background-color: var(--home-dark-bg);
+      color: var(--home-on-dark);
     }
 
     * {
@@ -90,7 +99,7 @@
     #staticContent #banner {
       top: 0;
       position: sticky;
-      background: #242424;
+      background: var(--home-dark-bg);
       z-index: 1;
       font-family: var(--system-font);
     }
@@ -100,6 +109,16 @@
       max-width: 1200px;
       padding: 0 16px;
       margin: 0 auto;
+    }
+
+    #bannerCta {
+      margin: 0 24px;
+      padding: 10px 12px;
+      display: none;
+    }
+
+    #banner.pinned #bannerCta {
+      display: block;
     }
 
     #staticContent .contentPanel {
@@ -145,7 +164,7 @@
     }
 
     .bannerLink:hover {
-      background: rgba(255, 255, 255, 0.2);
+      background: var(--home-button-color);
     }
 
     h3,
@@ -156,7 +175,7 @@
     }
 
     h3 {
-      color: #FBCCA6;
+      color: var(--home-title-on-dark);
     }
 
     h4 {
@@ -164,7 +183,7 @@
       font-family: 'Raleway', sans-serif;
       font-size: 32px;
       margin-bottom: 4px;
-      color: #FBCCA6;
+      color: var(--home-title-on-dark);
     }
 
     header {
@@ -181,8 +200,8 @@
       border: none;
       padding: 16px;
       font-size: 15px;
-      background: var(--c4-theme-secondary);
-      color: var(--c4-theme-on-secondary);
+      background: var(--home-button-color);
+      color: white;
       cursor: pointer;
       border-radius: 4px;
       position: relative;
@@ -228,7 +247,7 @@
     .stickySection>div {
       margin-top: 25vh;
       min-height: 50vh;
-      font-size: 22px;
+      font-size: 24px;
     }
 
     #journeyImage {
@@ -268,7 +287,7 @@
       font-size: 120px;
       line-height: 0;
       text-align: left;
-      color: #FBCCA6;
+      color: var(--home-title-on-dark);
     }
 
     #quote-mark-end {
@@ -276,7 +295,7 @@
       font-size: 120px;
       line-height: 0;
       text-align: right;
-      color: #FBCCA6;
+      color: var(--home-title-on-dark);
       padding-top: 22px;
     }
 
@@ -294,21 +313,21 @@
 
     #howSection h4 {
       margin: 16px 0 80px;
-      color: white;
+      color: var(--home-on-dark);
     }
 
     #howSection .card {
-      padding: 16px 24px 0;
+      padding: 24px 24px 0;
       min-width: 290px;
       width: 30%;
       min-height: 260px;
       font-size: 20px;
-      border: 2px solid #FBCCA6;
+      border: 2px solid;
       border-radius: 24px;
     }
 
     .countLabel {
-      background: #FBCCA6;
+      background-color: var(--home-title-on-dark);
       display: inline-block;
       width: 50px;
       height: 50px;
@@ -325,7 +344,7 @@
       width: 100%;
       height: 100px;
       object-fit: contain;
-      background: white;
+      background: var(--home-light-bg);
       line-height: 0;
       margin: 0;
       padding: 0;
@@ -356,21 +375,21 @@
 
 
     .lightPanel {
-      background: white;
-      margin: 200px 0;
+      margin: 200px 0 0;
       padding: 0;
-      color: 242424;
+      background-color: var(--home-light-bg);
+      color: var(--home-on-light);
     }
 
     .lightPanel h3 {
-      color: #0277BD;
+      color: var(--home-title-on-light);
       font-size: 48px;
     }
 
     #doFeaturesSection,
     #seeFeaturesSection {
       text-align: center;
-      color: #242424;
+      color: var(--home-on-light);
       font-size: 24px;
       padding: 80px 0;
     }
@@ -385,7 +404,7 @@
       display: grid;
       grid-column-gap: 30px;
       grid-row-gap: 30px;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       padding: 30px 0;
     }
 
@@ -406,6 +425,8 @@
       border-radius: 10px;
       box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%), 0 1px 5px 0 rgb(0 0 0 / 12%);
       overflow: hidden;
+      max-width: 400px;
+      margin: 0 auto;
     }
 
     .featuresCard p {
@@ -429,17 +450,109 @@
       display: block;
       height: 420px;
     }
-  </style>
-  <style>
-    @media (max-width: 925px) {
-      .featuresContentPanel {
-        grid-template-columns: repeat(2, 1fr);
-      }
+
+    #pricingSection {
+      text-align: center;
+      font-size: 24px;
+      padding: 80px 0;
+      margin: 0 auto;
+      max-width: 800px;
     }
 
+    #pricingPanel {
+      display: flex;
+      flex-direction: row;
+      gap: 30px;
+      padding: 30px 0;
+    }
+
+    .pricingCard {
+      background: var(--home-light-bg);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      color: #202020;
+      font-size: 20px;
+      text-align: left;
+      overflow: hidden;
+    }
+
+    .pricePanel {
+      font-size: 60px;
+      text-align: center;
+      color: var(--home-title-on-light);
+      padding: 32px 16px;
+      border-bottom: 1px solid #e5e5e5;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .pricePanel span {
+      display: block;
+      font-size: 18px;
+      color: var(--home-on-light);
+      font-family: 'Raleway', sans-serif;
+    }
+
+    .priceContent {
+      padding: 6px 16px 16px;
+      background: #fafafa;
+    }
+
+    mark {
+      background: none;
+      font-weight: bold;
+      font-family: var(--system-font);
+      letter-spacing: 0.5px;
+    }
+
+    #bottomCTASection {
+      position: relative;
+      text-align: center;
+    }
+
+    #bottomCTASection h3 {
+      color: var(--home-on-dark);
+    }
+
+    footer {
+      padding: 80px;
+      text-align: center;
+      color: #ddd;
+      font-family: var(--system-font);
+      font-size: 14px;
+      letter-spacing: 0.3px;
+    }
+
+    footer a {
+      color: inherit;
+      text-decoration: none;
+      outline: none;
+      border-bottom: 1px solid;
+      padding: 0 0 2px;
+    }
+
+    #footerLinks {
+      margin-top: 10px;
+    }
+
+    #footerLinks a {
+      margin: 0 6px;
+    }
+  </style>
+  <style>
     @media (max-width: 865px) {
       h1 {
         font-size: 48px;
+      }
+    }
+
+    @media (max-width: 780px) {
+      .featuresContentPanel {
+        grid-template-columns: repeat(1, 1fr);
       }
     }
 
@@ -452,7 +565,7 @@
   <div id="staticContent">
     <div id="banner">
       <div id="bannerContent" class="horiz center">
-        <a href="/">
+        <a href="#">
           <div id="bannerLogo">
             <svg viewBox="0 0 1142 317.35" preserveAspectRatio="xMidYMid meet" focusable="false">
               <path d="M15,141.64c0-68,54.39-123,121.6-123" />
@@ -468,10 +581,12 @@
             </svg>
           </div>
         </a>
+        <button id="bannerCta">Your Journeys →</button>
         <span class="flex"></span>
+        <a class="bannerLink" href="#how-it-works">How it works</a>
+        <a class="bannerLink" href="#features">Features</a>
+        <a class="bannerLink" href="#pricing">Pricing</a>
         <a class="bannerLink" href="/journey-signin">Sign in</a>
-        <a class="bannerLink" href="/journey-signup">Get Started</a>
-        <button id="bannerCta" style="display: none;">See your Journeys</button>
       </div>
     </div>
     <main>
@@ -481,9 +596,8 @@
           <header>
             <h1>Understand customer journeys<br>Guide them to conversion</h1>
             <p>
-              <button>See your Journeys</button>
+              <button id="headerCTA">See your Journeys</button>
             </p>
-            <!-- <img id="headerImage" src="./bg1.png"> -->
           </header>
         </div>
       </div>
@@ -573,7 +687,7 @@
             </div>
           </div>
           <div class="howSectionSpacer"></div>
-          <div class="howSectionSegment">
+          <div id="how-it-works" class="howSectionSegment">
             <div class="horiz">
               <span class="flex"></span>
               <div class="card">
@@ -587,7 +701,7 @@
           <div class="howSectionHalfSpacer"></div>
         </section>
       </div>
-      <div class="lightPanel">
+      <div id="features" class="lightPanel">
         <div class="contentPanel">
           <section id="seeFeaturesSection">
             <div class="header">
@@ -622,15 +736,6 @@
                   <p>Search individual pages to see how they’re performing, and where visitors are going next.</p>
                 </div>
               </div>
-              <div class="featuresCard flex vert">
-                <div class="featureVideo">
-                  <video src="./vid4.mp4" autoplay loop playsinline muted></video>
-                </div>
-                <div class="flex">
-                  <p>Integrate your Google Analytics for immediate access, or add our plugin for even richer data.</p>
-                </div>
-              </div>
-
             </div>
           </section>
 
@@ -655,25 +760,75 @@
               </div>
             </div>
           </section>
-
-          <section class="featuresSection">
-            <h3> Pricing</h3>
-          </section>
         </div>
       </div>
-    </main>
-  </div>
 
-  <script>
-    // (() => {
-    //   setTimeout(() => {
-    //     const hi = document.getElementById('headerImage');
-    //     hi.style.transform = 'none';
-    //     hi.style.opacity = '0.7';
-    //   }, 1000);
-    // })();
-  </script>
+      <div id="pricing" class="darkPanel">
+        <div class="contentPanel">
+          <section id="pricingSection">
+            <div class="header">
+              <h3> Pricing</h3>
+            </div>
+            <div id="pricingPanel">
+              <div class="pricingCard flex">
+                <div class="pricePanel">Free</div>
+                <div class="priceContent flex">
+                  <p>
+                    The Journey Explorer and all analytics are
+                    <mark>completely free,</mark>
+                    with no subscription required.
+                  </p>
+                </div>
+              </div>
+              <div class="pricingCard flex">
+                <div class="pricePanel">
+                  $10
+                  <span>/conversion using the Navu Bar</span>
+                </div>
+                <div class="priceContent flex">
+                  <p>
+                    You decide who sees the Navu Bar, you define your conversions, and we do the rest to drive
+                    conversions. And the best part is you don't pay unless they use Navu AND convert. Pay monthly or
+                    with
+                    an annual subscription, the choice is yours.
+                  </p>
+                  <ul>
+                    <li>30 days completely free!</li>
+                    <li>$100 minimum</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <section id="bottomCTASection" style="position: relative;">
+          <connected-dots></connected-dots>
+          <div class="contentPanel" style="pointer-events: none;">
+            <header>
+              <h3>Ready to see what you've been missing?<br>Start exploring now! </h3>
+              <p>
+                <button>See your Journeys</button>
+              </p>
+            </header>
+          </div>
+        </section>
+      </div>
+    </main>
+    <footer>
+      <div class="contentPanel">
+        <div class="flex">© Navu, 2022. Powered by <a target="_blank" rel="noopener"
+            href="https://www.slickstream.com/">Slickstream</a></div>
+        <div id="footerLinks">
+          <a href="mailto:contact@navu.app">Contact us</a>
+          <a href="mailto:contact@navu.app">Terms & Conditions</a>
+          <a href="mailto:contact@navu.app">Privacy Policy</a>
+        </div>
+      </div>
+    </footer>
+  </div>
   <script type="module" src="./connected-dots.js" async></script>
+  <script async src="./script.js" async></script>
 </body>
 
 </html>
