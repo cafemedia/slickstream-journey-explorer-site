@@ -7808,12 +7808,17 @@
     </div>
 
     <navu-bar></navu-bar>
-    <script type="module" src="./bin/navu-bar.js"></script>
+    <navu-guide></navu-guide>
+    <script type="module" src="./bin/navu-guide.js"></script>
 
     <script>
-      const nb = document.querySelector('navu-bar');
-      document.getElementById('bx1').addEventListener('click', () => nb.recommendation = !nb.recommendation);
-      document.getElementById('bx2').addEventListener('click', () => nb.engaged = !nb.engaged);
+      const nb = document.querySelector('navu-guide');
+      document.getElementById('bx1').addEventListener('click', () => nb.recommending = !nb.recommending);
+      document.getElementById('bx2').addEventListener('click', () => {
+        const newValue = !nb.engaged
+        nb.engaged = newValue;
+        nb.recommending = newValue;
+      });
     </script>
 
 
