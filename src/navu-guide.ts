@@ -1,9 +1,10 @@
-import { Component, ce, html, TemplateResult, css, property, state } from '@slickstream/c4/lib/core/component.js';
+import { Component, ce, html, TemplateResult, css, property, state, query } from '@slickstream/c4/lib/core/component.js';
 import { FONT_STYLE } from '@slickstream/c4/lib/core/styles';
 
 import './icons';
 import './fab';
 import '@slickstream/c4/lib/button';
+import '@slickstream/c4/lib/icon-button';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -12,17 +13,21 @@ declare global {
 }
 
 const suggestions = [
-  { caption: '', label: 'Pricing' },
-  { caption: '', label: 'How it really works' },
-  { caption: '', label: 'FAQ' },
-  { caption: '', label: 'More...' }
+  { label: 'Review our pricing' },
+  { caption: 'Also see', label: 'How WAN Optimization really works' },
+  { caption: 'Recommended', label: 'Sign up for our webinar on WAN Optimization' },
+  { label: 'More...', icon: 'search' }
 ];
 
 @ce('navu-guide')
 export class NavuGuide extends Component {
   @property({ type: Boolean }) recommending = false;
-
   @state() private _hovering = false;
+  @state() private _searchMode = false;
+  @query('#txtSearch') private _searchTextbox !: HTMLInputElement;
+
+  private _mouseOver = false;
+  private _hoverOutTimer = 0;
 
   static styles = [
     Component.styles,
@@ -60,8 +65,7 @@ export class NavuGuide extends Component {
       left: 100%;
       left: calc(100% + 8px);
       bottom: 16px;
-      min-width: 120px;
-      min-height: 120px;
+      width: 280px;
       pointer-events: none;
       opacity: 0;
       align-items: start;
@@ -85,17 +89,19 @@ export class NavuGuide extends Component {
       transform: translateY(100%);
       opacity: 0;
       position: relative;
+      --c4-theme-primary: #0277BD;
+      --c4-padding: 12px 16px;
       transition: opacity 0.2s ease-out, transform 0.28s ease-out;
     }
     #card0::before {
       content: "";
       position: absolute;
-      top: -8px;
-      left: 8px;
+      top: -7px;
+      left: 6px;
       width: 100%;
       height: 100%;
       border-radius: 4px;
-      background-color: pink;
+      background-color: #a2c7e0;
       box-shadow: rgb(0 0 0 / 20%) 0px 3px 5px -1px, rgb(0 0 0 / 14%) 0px 6px 10px 0px, rgb(0 0 0 / 12%) 0px 1px 18px 0px;
       transition: opacity 0.2s ease;
       opacity: 1;
@@ -121,41 +127,151 @@ export class NavuGuide extends Component {
       transition-delay: var(--navu-guide-cell-transition-delay, 0);
     }
 
+    .button-innner {
+      text-align: left;
+      text-transform: initial;
+      letter-spacing: 0.5px;
+      white-space: initial;
+    }
+    .cardCaption {
+      text-transform: uppercase;
+      font-size: 12px;
+      opacity: 0.7;
+      padding-bottom: 8px;
+      letter-spacing: 1px;
+      font-weight: 300;
+    }
+    .cardLabel {
+      line-height: 1.5;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      z-index: 1000;
+      padding: 0 16px;
+      background-color: #0277BD;
+      color: white;
+      box-shadow: rgb(0 0 0 / 20%) 0px 3px 5px -1px, rgb(0 0 0 / 14%) 0px 6px 10px 0px, rgb(0 0 0 / 12%) 0px 1px 18px 0px;
+      transition: opacity 0.2s ease-out, transform 0.28s ease-out;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(-120%);
+    }
+    main {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      bottom: 0;
+      z-index: 1000;
+      padding: 0 16px;
+      background-color: #ffffff;
+      transition: opacity 0.2s ease-out, transform 0.28s ease-out;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(110%);
+    }
+    #txtSearch {
+      display: block;
+      width: 100%;
+      outline: none;
+      border: none;
+      background: rgba(255,255,255,0.95);
+      font-size: 14px;
+      font-family: inherit;
+      height: 40px;
+      border-radius: 20px;
+      padding: 0 20px;
+    }
+    .search-mode header {
+      pointer-events: auto;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .search-mode main {
+      pointer-events: auto;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
 
     `
   ];
 
   render(): TemplateResult {
     return html`
-    <div id="container" class="${this.recommending ? 'recommending' : ''} ${this._hovering ? 'hovering' : ''}">
+    <div id="floatingSection" 
+      ?hidden="${this._searchMode}" 
+      class="${this.recommending ? 'recommending' : ''} ${this._hovering ? 'hovering' : ''}">
       <div id="fabPanel">
         <navu-fab .on="${this.recommending}" off-icon="shortcut" on-icon="shortcut" @click="${this._onFabClick}"></navu-fab>
       </div>
-      <div id="cardPanel" @mouseenter="${this._mouseOver}" @mouseleave="${this._mouseOut}">
+      <div id="cardPanel" @mouseenter="${this._onMouseOver}" @mouseleave="${this._onMouseOut}">
         ${suggestions.map((d, i) => html`
           <div id="card${i}" class="card" style="--navu-guide-cell-transition-delay: ${i * 0.15}s">
-            <cf-button type="raised">${d.label}</cf-button>
+            <cf-button type="raised" .icon="${d.icon}">
+              <div class="vert button-innner">
+                ${d.caption ? html`<div class="cardCaption">${d.caption}</div>` : null}
+                <div class="cardLabel">${d.label}</div>
+              </div>
+            </cf-button>
           </div>
         `)}
-        <!-- <div id="mainCard" class="card mainCard">Pricing</div>
-        <div id="mainCardShadow" class="card mainCard">Pricing</div>
-        <div id="card2" class="card secondary-card"><span>How it works</span></div>
-        <div id="card3" class="card secondary-card"><span>FAQ</span></div>
-        <div id="card4" class="card secondary-card"><span>More</span></div> -->
       </div>
+    </div>
+    
+    <div id="searchSection" class="${this._searchMode ? 'search-mode' : ''}">
+      <main>
+        <p>search content goes here</p>
+      </main>
+      <header class="horiz center">
+        <div class="flex" style="position: relative;">
+          <input id="txtSearch" placeholder="What are you looking for?">
+        </div>
+        <cf-icon-button icon="close" style="margin-left: 8px;" @click="${this._closeSearch}"></cf-icon-button>
+      </header>
     </div>
     `;
   }
 
   private _onFabClick() {
     // TODO: open full search
+    this._searchMode = true;
+    this.recommending = false;
+    this._searchTextbox.focus();
   }
 
-  private _mouseOver() {
+  private _closeSearch() {
+    this._searchMode = false;
+  }
+
+  private _cancelHoverOutTimer() {
+    if (this._hoverOutTimer) {
+      window.clearTimeout(this._hoverOutTimer);
+      this._hoverOutTimer = 0;
+    }
+  }
+
+  private _onMouseOver() {
+    this._cancelHoverOutTimer();
     this._hovering = true;
+    this._mouseOver = true;
   }
 
-  private _mouseOut() {
-    this._hovering = false;
+  private _onMouseOut() {
+    this._cancelHoverOutTimer();
+    this._mouseOver = false;
+    if (this._hovering) {
+      this._hoverOutTimer = window.setTimeout(() => {
+        if (!this._mouseOver) {
+          this._hovering = false;
+        }
+        this._hoverOutTimer = 0;
+      }, 2000);
+    }
   }
 }
