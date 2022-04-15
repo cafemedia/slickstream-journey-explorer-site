@@ -1,0 +1,23 @@
+{
+  "name": "journeyexplorer",
+  "version": "1.0.0",
+  "description": "placeholder site for jex",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slickstream/journeyexplorer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/slickstream/journeyexplorer/issues"
+  },
+  "homepage": "https://github.com/slickstream/journeyexplorer#readme",
+  "dependencies": {
+    "@slickstream/c4": "^1.0.12",
+    "lit": "^2.2.2"
+  }
+}
