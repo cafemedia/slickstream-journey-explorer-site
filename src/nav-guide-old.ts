@@ -6,19 +6,13 @@ import './fab';
 
 declare global {
   interface HTMLElementTagNameMap {
-    'navu-guide': NavuGuide;
+    'navu-guide-old': NavuGuide;
   }
 }
 
-const suggestions = [
-  { caption: '', label: 'Pricing' },
-  { caption: '', label: 'How it really works' },
-  { caption: '', label: 'FAQ' },
-  { caption: '', label: 'More...' }
-];
-
-@ce('navu-guide')
+@ce('navu-guide-old')
 export class NavuGuide extends Component {
+  @property({ type: Boolean }) engaged = false;
   @property({ type: Boolean }) recommending = false;
 
   @state() private _hovering = false;
@@ -46,7 +40,7 @@ export class NavuGuide extends Component {
       transform: scale(0.7);
       transition: transform 0.18s ease;
     }
-    .recommending navu-fab,
+    
     #fabPanel:hover navu-fab {
       transform: scale(1);
       --c4-theme-secondary: #0277BD;
@@ -54,85 +48,83 @@ export class NavuGuide extends Component {
       --c4-shadow: 0px 3px 5px -1px rgb(0 0 0 / 20%), 0px 6px 10px 0px rgb(0 0 0 / 14%), 0px 1px 18px 0px rgb(0 0 0 / 12%);
     }
 
-    #cardPanel {
-      position: absolute;
-      left: 100%;
-      left: calc(100% + 8px);
-      bottom: 16px;
-      min-width: 120px;
-      min-height: 120px;
-      pointer-events: none;
-      opacity: 0;
-      align-items: start;
-      gap: 10px;
-      display: flex;
-      flex-direction: column-reverse
-    }
-    .recommending #cardPanel {
-      pointer-events: auto;
-      opacity: 1;
-    }
     .card {
+      position: absolute;
+      left: calc(100% + 16px);
+      bottom: 0;
       background: white;
       padding: 12px 16px;
       cursor: pointer;
       border-radius: 4px;
+      min-width: 120px;
       user-select: none;
-      text-align: left;
-      letter-spacing: 0.5px;
+      text-align: center;
       white-space: nowrap;
       pointer-events: none;
-      box-shadow: rgb(0 0 0 / 20%) 0px 3px 5px -1px, rgb(0 0 0 / 14%) 0px 6px 10px 0px, rgb(0 0 0 / 12%) 0px 1px 18px 0px;
-      transform: translateY(100%);
       opacity: 0;
+      transform: translateY(100%);
       transition: opacity 0.2s ease-out, transform 0.28s ease-out;
     }
-    #card0.card {
+    .mainCard {
       transform-origin: left center;
-      z-index: 1;
       transform: translateX(-32px) scale(0);
+      box-shadow: rgb(0 0 0 / 20%) 0px 3px 5px -1px, rgb(0 0 0 / 14%) 0px 6px 10px 0px, rgb(0 0 0 / 12%) 0px 1px 18px 0px;
     }
-    .recommending.hovering #card0.card,
-    .recommending #card0.card {
-      transform: translateX(0) scale(1);
+    #mainCard {
+      z-index: 1;
+    }
+    .recommending .mainCard {
       opacity: 1;
+      transform: translateX(0) scale(1);
       pointer-events: auto;
     }
-    .recommending.hovering .card {
+    .recommending #mainCardShadow.mainCard {
+      transform: translate3d(5px, -5px, 0) scale(1);
+      pointer-events: none;
+    }
+    .recommending.hovering #mainCardShadow {
+      opacity: 0;
+    }
+    .recommending.hovering .secondary-card {
       opacity: 1;
       pointer-events: auto;
       transform: translateY(0);
-      transition-delay: var(--navu-guide-cell-transition-delay, 0);
     }
 
-
+    #card2.card {
+      bottom: 60px;
+      box-shadow: rgb(0 0 0 / 20%) 0px 3px 5px -1px, rgb(0 0 0 / 14%) 0px 6px 10px 0px, rgb(0 0 0 / 12%) 0px 1px 18px 0px;
+    }
+    #card3.card {
+      bottom: 120px;
+      box-shadow: rgb(0 0 0 / 20%) 0px 3px 5px -1px, rgb(0 0 0 / 14%) 0px 6px 10px 0px, rgb(0 0 0 / 12%) 0px 1px 18px 0px;
+    }
+    #card4.card {
+      bottom: 180px;
+      box-shadow: rgb(0 0 0 / 20%) 0px 3px 5px -1px, rgb(0 0 0 / 14%) 0px 6px 10px 0px, rgb(0 0 0 / 12%) 0px 1px 18px 0px;
+    }
     `
   ];
 
   render(): TemplateResult {
     return html`
-    <div id="container" class="${this.recommending ? 'recommending' : ''} ${this._hovering ? 'hovering' : ''}">
+    <div id="container" class="${this.engaged ? 'engaged' : ''} ${this.recommending ? 'recommending' : ''} ${this._hovering ? 'hovering' : ''}">
       <div id="fabPanel">
-        <navu-fab .on="${this.recommending}" off-icon="shortcut" on-icon="shortcut" @click="${this._onFabClick}"></navu-fab>
+        <navu-fab .on="${this.engaged}" off-icon="shortcut" on-icon="shortcut" @click="${this._onFabClick}"></navu-fab>
       </div>
       <div id="cardPanel" @mouseenter="${this._mouseOver}" @mouseleave="${this._mouseOut}">
-        ${suggestions.map((d, i) => html`
-          <div id="card${i}" class="card" style="--navu-guide-cell-transition-delay: ${i * 0.15}s">
-            <div class="cardLabel">${d.label}</div>
-          </div>
-        `)}
-        <!-- <div id="mainCard" class="card mainCard">Pricing</div>
+        <div id="mainCard" class="card mainCard">Pricing</div>
         <div id="mainCardShadow" class="card mainCard">Pricing</div>
         <div id="card2" class="card secondary-card"><span>How it works</span></div>
         <div id="card3" class="card secondary-card"><span>FAQ</span></div>
-        <div id="card4" class="card secondary-card"><span>More</span></div> -->
+        <div id="card4" class="card secondary-card"><span>More</span></div>
       </div>
     </div>
     `;
   }
 
   private _onFabClick() {
-    // TODO: open full search
+    this.engaged = true;
   }
 
   private _mouseOver() {
