@@ -1,5 +1,6 @@
 import { Component, ce, html, TemplateResult, css, property, state, query } from '@slickstream/c4/lib/core/component.js';
 import { FONT_STYLE } from '@slickstream/c4/lib/core/styles';
+import { PropertyValues } from 'lit';
 
 import './icons';
 import './fab';
@@ -28,6 +29,7 @@ export class NavuGuide extends Component {
 
   private _mouseOver = false;
   private _hoverOutTimer = 0;
+  private _recommendedOnce = false;
 
   static styles = [
     Component.styles,
@@ -207,7 +209,7 @@ export class NavuGuide extends Component {
     <div id="floatingSection" 
       ?hidden="${this._searchMode}" 
       class="${this.recommending ? 'recommending' : ''} ${this._hovering ? 'hovering' : ''}">
-      <div id="fabPanel">
+      <div id="fabPanel" @mouseenter="${this._onFabMouseEnter}">
         <navu-fab .on="${this.recommending}" off-icon="shortcut" on-icon="shortcut" @click="${this._onFabClick}"></navu-fab>
       </div>
       <div id="cardPanel" @mouseenter="${this._onMouseOver}" @mouseleave="${this._onMouseOut}">
@@ -238,6 +240,12 @@ export class NavuGuide extends Component {
     `;
   }
 
+  updated(changes: PropertyValues<NavuGuide>) {
+    if (changes.has('recommending') && this.recommending) {
+      this._recommendedOnce = true;
+    }
+  }
+
   private _onFabClick() {
     // TODO: open full search
     this._searchMode = true;
@@ -253,6 +261,17 @@ export class NavuGuide extends Component {
     if (this._hoverOutTimer) {
       window.clearTimeout(this._hoverOutTimer);
       this._hoverOutTimer = 0;
+    }
+  }
+
+  private _onFabMouseEnter() {
+    if (this._recommendedOnce && (!this.recommending)) {
+      this.recommending = true;
+      setTimeout(() => {
+        if (this.recommending && (!this._hovering)) {
+          this.recommending = false;
+        }
+      }, 2000);
     }
   }
 
