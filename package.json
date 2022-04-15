@@ -18,6 +18,10 @@
   "homepage": "https://github.com/slickstream/journeyexplorer#readme",
   "dependencies": {
     "@slickstream/c4": "^1.0.12",
-    "lit": "^2.2.2"
+    "lit": "^2.2.2",
+    "rollup-plugin-node-resolve": "^5.2.0"
+  },
+  "devDependencies": {
+    "rollup": "^2.70.2"
   }
 }
