@@ -12,11 +12,13 @@ function onwarn(warning) {
 
 export default [
   {
-    input: 'bin/navu-guide.js',
+    input: 'bin/main.js',
     output: {
       file: `${outFolder}/navu-guide.js`,
-      format: 'iife'
+      format: 'iife',
+      name: 'NavuGuide'
     },
+    onwarn,
     plugins: [
       resolve()
     ]
