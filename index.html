@@ -7804,21 +7804,21 @@
     <div
       style="position: fixed; background: lightblue; padding: 8px; top: 0; left: 0; font-size: 14px; font-family: monospace;">
       <button id="bx1">Recommend</button>
-      <button id="bx2">Engaged</button>
     </div>
 
     <navu-bar></navu-bar>
     <navu-guide></navu-guide>
-    <script type="module" src="./bin/navu-guide.js"></script>
+    <!-- <script type="module" src="./bin/navu-guide.js"></script> -->
+    <script type="module" src="./dist/navu-guide.js"></script>
 
     <script>
       const nb = document.querySelector('navu-guide');
       document.getElementById('bx1').addEventListener('click', () => nb.recommending = !nb.recommending);
-      document.getElementById('bx2').addEventListener('click', () => {
-        const newValue = !nb.engaged
-        nb.engaged = newValue;
-        nb.recommending = newValue;
-      });
+      // document.getElementById('bx2').addEventListener('click', () => {
+      //   const newValue = !nb.engaged
+      //   nb.engaged = newValue;
+      //   nb.recommending = newValue;
+      // });
     </script>
 
 
