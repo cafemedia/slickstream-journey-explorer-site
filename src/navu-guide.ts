@@ -3,6 +3,7 @@ import { FONT_STYLE } from '@slickstream/c4/lib/core/styles';
 
 import './icons';
 import './fab';
+import '@slickstream/c4/lib/button';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -74,7 +75,6 @@ export class NavuGuide extends Component {
     }
     .card {
       background: white;
-      padding: 12px 16px;
       cursor: pointer;
       border-radius: 4px;
       user-select: none;
@@ -82,10 +82,23 @@ export class NavuGuide extends Component {
       letter-spacing: 0.5px;
       white-space: nowrap;
       pointer-events: none;
-      box-shadow: rgb(0 0 0 / 20%) 0px 3px 5px -1px, rgb(0 0 0 / 14%) 0px 6px 10px 0px, rgb(0 0 0 / 12%) 0px 1px 18px 0px;
       transform: translateY(100%);
       opacity: 0;
+      position: relative;
       transition: opacity 0.2s ease-out, transform 0.28s ease-out;
+    }
+    #card0::before {
+      content: "";
+      position: absolute;
+      top: -8px;
+      left: 8px;
+      width: 100%;
+      height: 100%;
+      border-radius: 4px;
+      background-color: pink;
+      box-shadow: rgb(0 0 0 / 20%) 0px 3px 5px -1px, rgb(0 0 0 / 14%) 0px 6px 10px 0px, rgb(0 0 0 / 12%) 0px 1px 18px 0px;
+      transition: opacity 0.2s ease;
+      opacity: 1;
     }
     #card0.card {
       transform-origin: left center;
@@ -97,6 +110,9 @@ export class NavuGuide extends Component {
       transform: translateX(0) scale(1);
       opacity: 1;
       pointer-events: auto;
+    }
+    .recommending.hovering #card0::before {
+      opacity: 0;
     }
     .recommending.hovering .card {
       opacity: 1;
@@ -118,7 +134,7 @@ export class NavuGuide extends Component {
       <div id="cardPanel" @mouseenter="${this._mouseOver}" @mouseleave="${this._mouseOut}">
         ${suggestions.map((d, i) => html`
           <div id="card${i}" class="card" style="--navu-guide-cell-transition-delay: ${i * 0.15}s">
-            <div class="cardLabel">${d.label}</div>
+            <cf-button type="raised">${d.label}</cf-button>
           </div>
         `)}
         <!-- <div id="mainCard" class="card mainCard">Pricing</div>
