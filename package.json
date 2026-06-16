@@ -1,6 +1,6 @@
 {
   "name": "journeyexplorer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "placeholder site for jex",
   "main": "index.js",
   "scripts": {
@@ -18,11 +18,12 @@
   },
   "homepage": "https://github.com/slickstream/journeyexplorer#readme",
   "dependencies": {
-    "@slickstream/c4": "^1.0.12",
+    "@slickstream/c4": "^1.0.22",
     "lit": "^2.2.2",
     "rollup-plugin-node-resolve": "^5.2.0"
   },
   "devDependencies": {
-    "rollup": "^2.70.2"
+    "rollup": "^2.70.2",
+    "typescript": "^4.6.3"
   }
 }
